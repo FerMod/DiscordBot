@@ -78,3 +78,5 @@ buildNumber.properties
 !/.mvn/wrapper/maven-wrapper.jar
 
 bot.token
+/.classpath
+/.project
