@@ -1,4 +1,4 @@
-package discordbot.commands.util;
+package discordbot.command.util;
 
 import java.awt.Color;
 import java.util.List;
@@ -7,11 +7,10 @@ import com.darichey.discord.api.Command;
 import com.darichey.discord.api.CommandRegistry;
 
 import discordbot.BotMain;
-import discordbot.commands.BotCommands;
+import discordbot.command.BotCommands;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.EmbedBuilder;
-import sx.blah.discord.util.MessageBuilder;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
 
@@ -27,7 +26,8 @@ public final class UtilCommands extends BotCommands {
 		//help
 		Command help = new Command("help");
 		help.withDescription("Show all the bot commands, or search information of a command.");
-		help.withUsage("**help** *[command]*");
+		help.withUsage("```java"
+				+ "help [command]");
 		help.caseSensitive(false);
 		//help.withAliases("test");
 		help.onExecuted(context -> help(context.getMessage().getChannel()));

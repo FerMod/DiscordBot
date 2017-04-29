@@ -1,14 +1,13 @@
 package discordbot;
 
-import discordbot.commands.BotCommands;
-import discordbot.commands.util.UtilCommands;
+import discordbot.command.BotCommands;
 import discordbot.debugconsole.ConsoleWindow;
 import discordbot.debugconsole.ConsoleWindow.CloseOperation;
 import sx.blah.discord.util.DiscordException;
 
 public class Launcher {
 	
-	//https://discordapp.com/oauth2/authorize?client_id=171210198780870656&scope=bot&permissions=66321471
+	//https://discordapp.com/oauth2/authorize?client_id=BOT_CLIENT_ID&scope=bot&permissions=66321471
 	public static void main(String[] args) {
 		
 		ConsoleWindow.setDefaultCloseOperation(CloseOperation.EXIT_ON_CLOSE);

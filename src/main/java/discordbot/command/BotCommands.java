@@ -1,6 +1,6 @@
-package discordbot.commands;
+package discordbot.command;
 
-import discordbot.commands.util.UtilCommands;
+import discordbot.command.util.UtilCommands;
 
 public abstract class BotCommands {
 	

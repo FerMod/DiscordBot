@@ -1,4 +1,4 @@
-package discordbot.commands.util;
+package discordbot.command.util;
 
 public interface UtilCommandsInterface {
 
