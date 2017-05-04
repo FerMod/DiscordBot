@@ -77,7 +77,7 @@
 
 		<resources>
 			<resource>
-				<directory>src/resources</directory>
+				<directory>resources</directory>
 			</resource>
 		</resources>
 
