@@ -4,21 +4,18 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 
-import discordbot.BotMain;
-
 public class UserStats {
 
 	//	private IUser user;
-	private	Map<Stat, Integer> statsMap;
+	private Map<Stat, Integer> statsMap;
 
 	public enum Stat {
 		MESSAGES_SENT,
 		MESSAGES_REMOVED
 	}
 
-	public UserStats(Stat stat) {
+	public UserStats() {
 		statsMap = Collections.synchronizedMap(new EnumMap<Stat, Integer>(Stat.class));
-		statsMap.put(stat, 0);
 	}
 
 	public int addStat(Stat stat) {
@@ -41,23 +38,21 @@ public class UserStats {
 		this.statsMap = statsMap;
 	}
 
-	public int increase(Stat stat) {
+	public void increase(Stat stat) {
 		if(statsMap.containsKey(stat)) {
-			return statsMap.put(stat, statsMap.get(stat).intValue()+1);
+			statsMap.put(stat, statsMap.get(stat).intValue()+1);
 		} else {
-			return statsMap.put(stat, 1);			
+			statsMap.put(stat, 1);
 		}
 	}
 
-	public int decrease(Stat stat) {
+	public void decrease(Stat stat) {
 		if(statsMap.containsKey(stat)) {
 			if(statsMap.get(stat).intValue() > 0) {
-				return statsMap.put(stat, statsMap.get(stat).intValue()-1);
-			} else {
-				return 0;
+				statsMap.put(stat, statsMap.get(stat).intValue()-1);
 			}
 		} else {
-			return statsMap.put(stat, 0);			
+			statsMap.put(stat, 0);			
 		}
 
 	}

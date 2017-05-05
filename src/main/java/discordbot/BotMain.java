@@ -115,11 +115,10 @@ public class BotMain {
 	}
 
 	public static UserStats getUserStats(IUser user) {
-		if(usersStatsMap.containsKey(user)) {
-			return usersStatsMap.get(user);
-		} else {
-			return usersStatsMap.put(user, new UserStats());
+		if(!usersStatsMap.containsKey(user)) {
+			usersStatsMap.put(user, new UserStats());
 		}
+		return usersStatsMap.get(user);
 	}
 
 	public static Map<IUser, UserStats> getUsersStatsMap() {
