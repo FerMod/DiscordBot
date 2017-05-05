@@ -16,10 +16,13 @@ public class UserStats {
 
 	public UserStats() {
 		statsMap = Collections.synchronizedMap(new EnumMap<Stat, Integer>(Stat.class));
+		for (Stat stat : Stat.values()) {
+			statsMap.put(stat, 0);
+		}
 	}
 
-	public int addStat(Stat stat) {
-		return statsMap.put(stat, 0);
+	public void addStat(Stat stat) {
+		statsMap.put(stat, 0);
 	}
 
 	public void setStat(Stat stat, int value) {
