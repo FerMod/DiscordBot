@@ -11,7 +11,7 @@ import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
 
-public class BotMessageReceivedEvent implements IListener<MessageReceivedEvent>{
+public class BotMessageReceivedEvent implements IListener<MessageReceivedEvent> {
 
 	/**
 	 * Called when the client receives a message.
@@ -26,16 +26,16 @@ public class BotMessageReceivedEvent implements IListener<MessageReceivedEvent>{
 //			XMLWriter xmlWriter = new XMLWriter();
 
 			IUser user = message.getAuthor();
-			if(!BotMain.getUsersStatsMap().containsKey(user)) {
-				BotMain.getUsersStatsMap().put(user, new UserStats(user));
-			}
+//			if(!BotMain.getUsersStatsMap().containsKey(user)) {
+//				BotMain.getUsersStatsMap().put(user, new UserStats());
+//			}
 			
-			if(!BotMain.getUserStats(user).getStatsMap().containsKey(Stat.MESSAGES_SENT)) {
-				BotMain.getUserStats(user).addStat(Stat.MESSAGES_SENT);
-			} else {
-				BotMain.getUsersStatsMap().get(user).increase(Stat.MESSAGES_SENT);
+//			if(!BotMain.getUserStats(user).getStatsMap().containsKey(Stat.MESSAGES_SENT)) {
+//				BotMain.getUserStats(user).addStat(Stat.MESSAGES_SENT);
+//			} else {
+				BotMain.getUserStats(user).increase(Stat.MESSAGES_SENT);
 				//xmlWriter.update("messages_sent", new UserStats(message.getAuthor()));
-			}
+//			}
 
 		} catch (RateLimitException e) { // RateLimitException thrown. The bot is sending messages too quickly!
 			System.err.print("Sending messages too quickly!");

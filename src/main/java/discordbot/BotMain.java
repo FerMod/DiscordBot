@@ -113,11 +113,15 @@ public class BotMain {
 		messageBuilder.withChannel(channel).withEmbed(embedObject);
 		messageBuilder.build();
 	}
-	
+
 	public static UserStats getUserStats(IUser user) {
-		return usersStatsMap.get(user);
+		if(usersStatsMap.containsKey(user)) {
+			return usersStatsMap.get(user);
+		} else {
+			return usersStatsMap.put(user, new UserStats());
+		}
 	}
-	
+
 	public static Map<IUser, UserStats> getUsersStatsMap() {
 		return usersStatsMap;
 	}

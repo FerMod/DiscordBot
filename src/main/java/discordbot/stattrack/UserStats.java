@@ -4,34 +4,25 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 
-import sx.blah.discord.handle.obj.IUser;
+import discordbot.BotMain;
 
 public class UserStats {
 
 	//	private IUser user;
-	//	private int messagesSent = 0;
-	private	static Map<Stat, Integer> statsMap;
+	private	Map<Stat, Integer> statsMap;
 
 	public enum Stat {
 		MESSAGES_SENT,
 		MESSAGES_REMOVED
 	}
 
-	public UserStats(IUser user) {
-		//		this.user = user;
+	public UserStats(Stat stat) {
 		statsMap = Collections.synchronizedMap(new EnumMap<Stat, Integer>(Stat.class));
+		statsMap.put(stat, 0);
 	}
 
-	//	public IUser getUser() {
-	//		return user;
-	//	}
-	//
-	//	public void setUser(IUser user) {
-	//		this.user = user;
-	//	}
-
-	public void addStat(Stat stat) {
-		statsMap.put(stat, 0);
+	public int addStat(Stat stat) {
+		return statsMap.put(stat, 0);
 	}
 
 	public void setStat(Stat stat, int value) {
@@ -47,7 +38,7 @@ public class UserStats {
 	}
 
 	public void setStatsMap(Map<Stat, Integer> statsMap) {
-		UserStats.statsMap = statsMap;
+		this.statsMap = statsMap;
 	}
 
 	public int increase(Stat stat) {
@@ -70,21 +61,5 @@ public class UserStats {
 		}
 
 	}
-
-	//	public int getMessagesSent() {
-	//		return messagesSent;
-	//	}
-	//
-	//	public void setMessagesSent(int messagesSent) {
-	//		this.messagesSent = messagesSent;
-	//	}
-	//	
-	//	public void increaseMessagesSent() {
-	//		messagesSent++;
-	//	}
-	//	
-	//	public void decreaseMessagesSent() {
-	//		messagesSent--;
-	//	}
 
 }

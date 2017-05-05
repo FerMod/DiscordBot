@@ -32,7 +32,6 @@ public class Launcher extends Thread {
 
 			try {
 
-				BotMain.getInstance();
 				BotMain.createClient(true);
 
 				// Load all the comands
