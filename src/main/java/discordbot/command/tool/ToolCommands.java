@@ -1,14 +1,9 @@
 package discordbot.command.tool;
 
 import java.awt.Color;
-import java.util.Collections;
 import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-
 import com.darichey.discord.api.Command;
 import com.darichey.discord.api.CommandContext;
 import com.darichey.discord.api.CommandRegistry;
@@ -18,7 +13,6 @@ import discordbot.command.BotCommands;
 import discordbot.stattrack.UserStats;
 import discordbot.stattrack.UserStats.Stat;
 import sx.blah.discord.Discord4J;
-import sx.blah.discord.handle.impl.obj.User;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.handle.obj.Permissions;
@@ -49,13 +43,13 @@ public class ToolCommands extends BotCommands {
 
 		//help
 		Command help = new Command("help");
-		help.withDescription("Show all the bot commands, or search information of a command.");
 		help.withUsage("help *[command]*");
+		help.withDescription("Show all the bot commands, or search information of a command.");
 		help.caseSensitive(false);
 		//		Set<String> helpAliases = new LinkedHashSet<String>(Arrays.asList("man", "h"));
 		//		help.withAliases(helpAliases);
 		help.onExecuted(context -> help(context));
-		
+
 		//ping
 		Command ping = new Command("ping");
 		ping.withDescription("Test if the bot its operative.");
@@ -73,7 +67,8 @@ public class ToolCommands extends BotCommands {
 
 		//storedusers
 		Command stats = new Command("stats");
-		stats.withDescription("Show some stats.");
+		stats.withUsage("stats *[username]*");
+		stats.withDescription("Shows your stats, or given a username, the stats of the first user found that matches the username.");
 		stats.caseSensitive(false);
 		//		Set<String> helpAliases = new LinkedHashSet<String>(Arrays.asList("man", "h"));
 		//		help.withAliases(helpAliases);
@@ -93,28 +88,41 @@ public class ToolCommands extends BotCommands {
 		CommandRegistry.getForClient(BotMain.client).register(kill);
 
 		//stats
-		//		commandSet.add(storedusers);
 		CommandRegistry.getForClient(BotMain.client).register(stats);
 
 	}
 
+	//TODO move to another section
 	public static void stats(CommandContext commandContext) {
 		try {
-			
-			StringBuilder sb = new StringBuilder();
-			
-			IUser author = commandContext.getMessage().getAuthor();
-			sb.append(author.getDisplayName(commandContext.getMessage().getGuild()));
-			
-			UserStats userStats = BotMain.getUsersStatsMap().get(author);
-			for (Stat stat : userStats.getStatsMap().keySet()) {
-				sb.append(System.getProperty("line.separator"));
-				sb.append(stat + ": ");
-				sb.append(userStats.getStatsMap().get(stat));
+
+			EmbedBuilder embedBuilder = new EmbedBuilder();
+			embedBuilder.withColor(new Color(102, 204, 0));
+			embedBuilder.setLenient(true);
+
+
+			IUser author = null;
+			String[] args = commandContext.getArgs();
+			if(args.length > 0) {
+				List<IUser> userList = commandContext.getMessage().getGuild().getUsersByName(commandContext.getArgs()[0], true);
+				if(!userList.isEmpty()) {
+					author = userList.get(0);
+				} else {
+					embedBuilder.withColor(new Color(255,140,0));
+					embedBuilder.appendDesc("User **`" + args[0] + "`** not found.");
+				}
+			} else {
+				author = commandContext.getMessage().getAuthor();	
 			}
-			
-			BotMain.sendMessage(sb.toString(), commandContext.getMessage().getChannel());
-			
+			embedBuilder.withAuthorIcon(author.getAvatarURL());
+			embedBuilder.withAuthorName(author.getDisplayName(commandContext.getMessage().getGuild()));
+			UserStats userStats = BotMain.getUserStats(author);
+			for (Stat stat : userStats.getStatsMap().keySet()) {
+				embedBuilder.appendField(stat.toString(), userStats.getStatsMap().get(stat).toString(), true);
+			}
+
+			BotMain.sendMessage(embedBuilder.build(), commandContext.getMessage().getChannel());
+
 		} catch (MissingPermissionsException | RateLimitException | DiscordException e) {
 			e.printStackTrace();
 		}
@@ -203,13 +211,5 @@ public class ToolCommands extends BotCommands {
 			e.printStackTrace();
 		}
 	}
-
-	//	public static Set<Command> getCommandSet() {
-	//		return commandSet;
-	//	}
-
-	//	public static void setCommandSet(Set<Command> commandSet) {
-	//		ToolCommands.commandSet = commandSet;
-	//	}
 
 }
